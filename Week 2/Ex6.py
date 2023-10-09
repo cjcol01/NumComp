@@ -1,31 +1,24 @@
 import numpy as np
 
-list_n = [10, 10 ** 2, 10 ** 3, 10 ** 4, 10 ** 5, 10 ** 6, 10 ** 7, 10 ** 8] #10 ** 9]
-list_sum = [None] * 10
-
-def piSquared(list_n):
-    
-
-    for count, value in enumerate(list_n):
-        sum = 0
-        n = list_n[count]
-        for k in range(1, n):
-            sum += 1 / (k ** 2)
-            if k % 10000000 == 0:
-                print("10 million increment")
-
-        list_sum[count] = sum
+def piSquared(n):
+    sum = 0.0  # Use a float for proper division
+    for k in range(1, n + 1):  # Note that Python's range is exclusive, so we need n + 1 to include n.
+        sum += 1 / (k ** 2)
     return sum
 
+def table(list_n):
+    pi_constant = (1 / 6) * (np.pi ** 2)
+    
+    print("Power\t\tConstant\t\tCalculated\t\tError")
+    print("-----\t\t--------\t\t----------\t\t-----")
 
-def table():
-    pi_constant = (1 / 6 * np.float64(np.pi) ** 2)
+    for n in list_n:
+        calculated = piSquared(n)
+        pi_error = abs(calculated - pi_constant)
+        
+        # print(f"{n}\t\t{np.float64(pi_constant)}\t{np.float64(calculated)}\t{np.float64(pi_error)}") # float 64, but messes up table
+        print(f"{n:<15}{pi_constant:<25.15f}{calculated:<25.15f}{pi_error:<25.15f}") # sorts table
 
-    print("power \t\t constant \t\t calculated \t\t error")
-    for i in range(len(list_n)):
-        pi_error = list_sum[i] - pi_constant
-        print(str(list_n[i]) + "\t\t " + str(pi_constant) +"\t " + str(list_sum[i]) + "\t " + str(pi_error))
-        pass
-
-piSquared(list_n)
-table()
+if __name__ == "__main__":
+    list_n = [10, 10 ** 2, 10 ** 3, 10 ** 4, 10 ** 5, 10 ** 6, 10 ** 7, 10 ** 8, 10 ** 9]
+    table(list_n)
